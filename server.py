@@ -54,7 +54,7 @@ def slack():
 		text = ''
 		if generated_fill['status'] == 1:
 			for paragraph in generated_fill['content']:
-				text += paragraph+'\n'
+				text += paragraph+'\n\n'
 			return text
 		else:
 			return generated_fill['content']
