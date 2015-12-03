@@ -26,7 +26,7 @@ def slack_auto():
 @app.route("/slack", methods=["POST"])
 def slack():
 	if tweets.compiled:
-		if request.form['command'] == '/fill_gilbert':
+		if request.form['command'] == '/fill-gilbert':
 			value = None
 			try:
 				value = int(request.form['text'])
