@@ -21,6 +21,7 @@ class TweetCorpus:
 		self.count = count
 		self.corpus = []
 		self.name_dict = collections.defaultdict(list)
+		self.compiled = False
 
 	'''
 	INPUT:
@@ -140,7 +141,7 @@ class TweetCorpus:
 		self.get_add_names(usernames[lower_bound:len(usernames)])
 		self.scrub_usernames()
 		self.corpus = map(lambda tweet : re.sub(r'(?:\@|https?\://)\S+', '', tweet), self.corpus)
-
+		self.compiled = True
 		return True
 
 	def create_paragraph(self):
