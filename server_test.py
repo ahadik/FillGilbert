@@ -16,7 +16,7 @@ app = Flask(__name__, template_folder="./templates/", static_folder="./static")
 def index():
 	return "Hello World"
 
-'''
+
 @app.route("/slack", methods=["POST"])
 def slack():
 	if tweets.compiled:
@@ -29,7 +29,7 @@ def slack():
 			return tweets.compose(value)
 	else:
 		return 'Compiling Phil\'s thoughts just a second...'
-'''
+
 
 
 if __name__ == "__main__":
