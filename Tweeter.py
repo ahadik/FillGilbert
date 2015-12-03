@@ -95,6 +95,8 @@ class TweetCorpus:
 			prohibitedWords = ['RT', 'MT']
 			regex = re.compile('|'.join(map(re.escape, prohibitedWords)))
 			tweet = regex.sub('', tweet)
+			tweet = re.sub('#ibmdesign', 'IBM Design', tweet)
+			tweet = re.sub('#IBM', 'IBM', tweet)
 		return tweet
 
 	def scrub_usernames(self):
