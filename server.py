@@ -50,7 +50,11 @@ def fill_auto():
 @app.route("/slack", methods=["POST"])
 def slack():
 	if request.form['token'] == slack_tocken:
-		return fill(request.form['text'])
+		generated_fill = filler(request.form['text'])
+		text = ''
+		for paragraph in generated_fill['content']:
+			text += paragraph+'\n'
+		return text
 	return 'Unauthorized access.', status.HTTP_401_UNAUTHORIZED
 
 @app.route('/')
