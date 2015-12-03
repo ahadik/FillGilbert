@@ -88,23 +88,27 @@ class TweetCorpus:
 			if usernames[i] in self.name_dict:
 				self.name_dict[usernames[i]][1] = names[i]
 
-	def clean_tweet(self, tweet, username, user):
-		if (user != {}) and ('errors' not in user):
-			#replace all mentions of this username with the fullname contained in the associated user object
-			tweet = re.sub(r'(?i)(?<=^|(?<=[^a-zA-Z0-9-_\.]))@'+username+'+[^A-Za-z0-9\_]', user['name'].encode('utf8')+' ', tweet)
+	def clean_tweets(self):
+		ind = 0
+		for tweet in self.corpus:
 			prohibitedWords = ['RT', 'MT']
 			regex = re.compile('|'.join(map(re.escape, prohibitedWords)))
 			tweet = regex.sub('', tweet)
-			tweet = re.sub('#ibmdesign', 'IBM Design', tweet)
-			tweet = re.sub('#IBM', 'IBM', tweet)
-		return tweet
+			tweet = re.sub('(?i)#ibmdesign', 'IBM Design', tweet)
+			tweet = re.sub('(?i)#IBM', 'IBM', tweet)
+			tweet = re.sub('(?i)#Watson', 'Watson', tweet)
+			self.corpus[ind] = tweet
+			ind+=1
 
 	def scrub_usernames(self):
 		for username, name_data in self.name_dict.iteritems():
 			user_mentions = name_data[0]
 			user_data = name_data[1]
 			for tweet_ind in user_mentions:
-				tweet_out = self.clean_tweet(self.corpus[tweet_ind], username, user_data)
+				tweet_out = None
+				if (user_data != {}) and ('errors' not in user_data):
+					#replace all mentions of this username with the fullname contained in the associated user object
+					tweet_out = re.sub(r'(?i)(?<=^|(?<=[^a-zA-Z0-9-_\.]))@'+username+'+[^A-Za-z0-9\_]', user_data['name'].encode('utf8')+' ', self.corpus[tweet_ind])
 				self.corpus[tweet_ind] = tweet_out
 
 	#OUTPUT: an array of text from tweets
@@ -142,6 +146,7 @@ class TweetCorpus:
 			upper_bound += 100
 		self.get_add_names(usernames[lower_bound:len(usernames)])
 		self.scrub_usernames()
+		self.clean_tweets()
 		self.corpus = map(lambda tweet : re.sub(r'(?:\@|https?\://)\S+', '', tweet), self.corpus)
 		self.compiled = True
 		print "Tweeter compiled"
