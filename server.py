@@ -14,12 +14,14 @@ app = Flask(__name__)
 tweet_thread = threading.Thread(target=tweets.compile)
 tweet_thread.start()
 
+'''
 @app.route("/slack", methods=["GET"])
 def slack_auto():
 	if tweets.compiled:
 		return tweets.compose(4)
 	else:
 		return 'Compiling Phil\'s thoughts just a second...'
+'''
 
 @app.route("/slack", methods=["POST"])
 def slack():
@@ -36,7 +38,7 @@ def slack():
 
 @app.route('/')
 def Welcome():
-    return "hello world NEW"
+    return "WOOOOO"
 
 @app.route('/myapp')
 def WelcomeToMyapp():
