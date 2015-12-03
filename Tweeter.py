@@ -154,10 +154,10 @@ class TweetCorpus:
 		return paragraph
 
 	def compose(self, num_paragraphs):
-		full_text = ""
+		paragraphs = []
 		for i in xrange(0,num_paragraphs):
-			full_text += self.create_paragraph()+'\n'
-		return full_text
+			paragraphs.append(self.create_paragraph())
+		return paragraphs
 
 
 	#Write the text of each tweet to file, one tweet per line.
