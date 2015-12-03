@@ -55,7 +55,7 @@ def slack():
 		if generated_fill['status'] == 1:
 			for paragraph in generated_fill['content']:
 				text += paragraph+'\n\n'
-			return '{"text":"'+text+'"}', 200, {'Content-Type' : "application/json; charset=utf-8"}
+			return '{"text":"'+text+'"}', 200, {'Content-Type' : 'application/json'}
 		else:
 			return generated_fill['content']
 	return 'Unauthorized access.', status.HTTP_401_UNAUTHORIZED
