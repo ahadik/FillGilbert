@@ -148,7 +148,7 @@ class TweetCorpus:
 	def create_paragraph(self):
 		size = len(self.corpus)
 		paragraph = ""
-		num_tweets = random.randint(5,15)
+		num_tweets = random.randint(5,10)
 		for i in xrange(num_tweets):
 			paragraph += self.corpus[random.randint(0,size-1)]+' '
 		return paragraph
