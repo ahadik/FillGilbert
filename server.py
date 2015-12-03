@@ -1,20 +1,21 @@
-from flask import Flask, render_template, request, url_for
-from Tweeter import *
-import threading
+import os
+from flask import Flask
+#from Tweeter import *
+#import threading
 
 key = '4qwcMrkw08dZRF8JOUAbTPWEI'
 secret = 'GnmdzLDjbIwruXveJ4RJePeAm5W2MP7a4jxXZbpNrUh46NAoRf'
 screen_name = 'philgilbertsr'
 tweets = TweetCorpus(key, secret, screen_name)
 
-app = Flask(__name__, template_folder="./templates/", static_folder="./static")
+app = Flask(__name__)
 
 #tweet_thread = threading.Thread(target=tweets.compile)
 #tweet_thread.start()
 
-@app.route("/")
-def index():
-	return "Hello World"
+@app.route('/')
+def Welcome():
+    return app.send_static_file('index.html')
 
 '''
 @app.route("/slack", methods=["POST"])
