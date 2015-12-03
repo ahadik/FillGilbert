@@ -1,36 +1,30 @@
-from flask import Flask, render_template, request, url_for
-from Tweeter import *
-#import threading
+# Copyright 2015 IBM Corp. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-key = '4qwcMrkw08dZRF8JOUAbTPWEI'
-secret = 'GnmdzLDjbIwruXveJ4RJePeAm5W2MP7a4jxXZbpNrUh46NAoRf'
-screen_name = 'philgilbertsr'
-tweets = TweetCorpus(key, secret, screen_name)
+import os
+from flask import Flask
 
-app = Flask(__name__, template_folder="./templates/", static_folder="./static")
+app = Flask(__name__)
 
-#tweet_thread = threading.Thread(target=tweets.compile)
-#tweet_thread.start()
+@app.route('/')
+def Welcome():
+    return app.send_static_file('index.html')
 
-@app.route("/")
-def index():
-	return "Hello World"
+@app.route('/myapp')
+def WelcomeToMyapp():
+    return 'Welcome again to my app running on Bluemix!'
 
-
-@app.route("/slack", methods=["POST"])
-def slack():
-	if tweets.compiled:
-		if request.form['command'] == '/fill_gilbert':
-			value = None
-			try:
-				value = int(request.form['text'])
-			except ValueError:
-				return 'Give Phil a number of paragraphs to say.'
-			return tweets.compose(value)
-	else:
-		return 'Compiling Phil\'s thoughts just a second...'
-
-
-
+port = os.getenv('VCAP_APP_PORT', '5000')
 if __name__ == "__main__":
-	app.run()
+	app.run(host='0.0.0.0', port=int(port))
