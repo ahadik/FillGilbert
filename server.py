@@ -34,13 +34,9 @@ def slack():
 	else:
 		return 'Compiling Phil\'s thoughts just a second...'
 
-
-
-app = Flask(__name__)
-
 @app.route('/')
 def Welcome():
-    return "hello world"
+    return "hello world NEW"
 
 @app.route('/myapp')
 def WelcomeToMyapp():
