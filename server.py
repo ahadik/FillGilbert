@@ -52,9 +52,12 @@ def slack():
 	if request.form['token'] == slack_tocken:
 		generated_fill = filler(request.form['text'])
 		text = ''
-		for paragraph in generated_fill['content']:
-			text += paragraph+'\n'
-		return text
+		if generated_fill['status'] == 1:
+			for paragraph in generated_fill['content']:
+				text += paragraph+'\n'
+			return text
+		else:
+			return generated_fill['content']
 	return 'Unauthorized access.', status.HTTP_401_UNAUTHORIZED
 
 @app.route('/')
