@@ -12,6 +12,10 @@ app = Flask(__name__, template_folder="./templates/", static_folder="./static")
 tweet_thread = threading.Thread(target=tweets.compile)
 tweet_thread.start()
 
+@app.route("/")
+def index():
+	return "Hello World"
+
 @app.route("/slack", methods=["POST"])
 def slack():
 	if tweets.compiled:
