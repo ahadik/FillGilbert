@@ -13,11 +13,6 @@ app = Flask(__name__)
 
 tweet_thread = threading.Thread(target=tweets.compile)
 tweet_thread.start()
-'''
-@app.route('/')
-def Welcome():
-    return app.send_static_file('index.html')
-
 
 @app.route("/slack", methods=["POST"])
 def slack():
@@ -32,10 +27,7 @@ def slack():
 	else:
 		return 'Compiling Phil\'s thoughts just a second...'
 
-port = os.getenv('VCAP_APP_PORT', '5000')
-if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=int(port))
-'''
+
 
 app = Flask(__name__)
 
