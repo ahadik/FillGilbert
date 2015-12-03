@@ -38,7 +38,7 @@ def slack():
 
 @app.route('/')
 def Welcome():
-    return "WOOOOO"
+    return "WOOOOOOO"
 
 @app.route('/myapp')
 def WelcomeToMyapp():
