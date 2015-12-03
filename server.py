@@ -1,8 +1,8 @@
 
 import os
 from flask import Flask
-from Tweeter import *
-import threading
+#from Tweeter import *
+#import threading
 '''
 key = '4qwcMrkw08dZRF8JOUAbTPWEI'
 secret = 'GnmdzLDjbIwruXveJ4RJePeAm5W2MP7a4jxXZbpNrUh46NAoRf'
