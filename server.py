@@ -1,6 +1,6 @@
 
 import os
-from flask import Flask, request, url_for, redirect
+from flask import Flask, request, url_for, redirect, jsonify
 from Tweeter import *
 import threading
 
@@ -55,7 +55,7 @@ def slack():
 		if generated_fill['status'] == 1:
 			for paragraph in generated_fill['content']:
 				fill_text += paragraph+'\n\n'
-			return flask.jsonify(text=fill_text), 200, {'Content-Type' : 'application/json'}
+			return flask.jsonify(text=fill_text)
 		else:
 			return generated_fill['content']
 	return 'Unauthorized access.', status.HTTP_401_UNAUTHORIZED
