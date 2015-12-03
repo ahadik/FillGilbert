@@ -142,6 +142,7 @@ class TweetCorpus:
 		self.scrub_usernames()
 		self.corpus = map(lambda tweet : re.sub(r'(?:\@|https?\://)\S+', '', tweet), self.corpus)
 		self.compiled = True
+		print "Tweeter compiled"
 		return True
 
 	def create_paragraph(self):
