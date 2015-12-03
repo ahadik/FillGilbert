@@ -44,7 +44,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def Welcome():
-    return app.send_static_file('index.html')
+    return "hello world"
 
 @app.route('/myapp')
 def WelcomeToMyapp():
