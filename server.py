@@ -28,7 +28,7 @@ def filler(paragraphs):
 			return {'status' : 0, 'content' : 'Give Phil a number of paragraphs to say. You asked for "'+paragraphs+'" which isn\'t a number.'}
 		return {'status' : 1, 'content' : tweets.compose(value)}
 	else:
-		return {'status' : 0, 'content' : 'Compiling Phil\'s thoughts just a second...'}
+		return {'status' : 0, 'content' : 'Phil\'s gathering his thoughts. Give him a minute...'}
 
 @app.route("/fill/<paragraphs>")
 def fill(paragraphs):
@@ -36,7 +36,7 @@ def fill(paragraphs):
 	if generated_fill['status'] == 1:
 		dom = '<html><body>'
 		for paragraph in generated_fill['content']:
-			dom += '<p style="width : 75%; font-family: sans-serif;">'+paragraph+'</p>'
+			dom += '<p style="width : 75%; font-family: sans-serif; margin-left: auto; margin-right: auto;">'+paragraph+'</p>'
 		dom += '</body></html>'
 		return dom, 200, {'Content-Type' : "text/html; charset=utf-8"}
 	else:
