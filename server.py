@@ -9,13 +9,14 @@ tweets = TweetCorpus(key, secret, screen_name)
 
 app = Flask(__name__, template_folder="./templates/", static_folder="./static")
 
-tweet_thread = threading.Thread(target=tweets.compile)
-tweet_thread.start()
+#tweet_thread = threading.Thread(target=tweets.compile)
+#tweet_thread.start()
 
 @app.route("/")
 def index():
 	return "Hello World"
 
+'''
 @app.route("/slack", methods=["POST"])
 def slack():
 	if tweets.compiled:
@@ -28,7 +29,7 @@ def slack():
 			return tweets.compose(value)
 	else:
 		return 'Compiling Phil\'s thoughts just a second...'
-
+'''
 port = os.getenv('VCAP_APP_PORT', '5000')
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=int(port))
