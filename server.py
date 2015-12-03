@@ -51,11 +51,11 @@ def fill_auto():
 def slack():
 	if request.form['token'] == slack_tocken:
 		generated_fill = filler(request.form['text'])
-		text = ''
+		fill_text = ''
 		if generated_fill['status'] == 1:
 			for paragraph in generated_fill['content']:
-				text += paragraph+'\n\n'
-			return '{"text":"'+text+'"}', 200, {'Content-Type' : 'application/json'}
+				fill_text += paragraph+'\n\n'
+			return flask.jsonify(text=fill_text), 200, {'Content-Type' : 'application/json'}
 		else:
 			return generated_fill['content']
 	return 'Unauthorized access.', status.HTTP_401_UNAUTHORIZED
