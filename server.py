@@ -1,9 +1,9 @@
-'''
+
 import os
 from flask import Flask
-#from Tweeter import *
-#import threading
-
+from Tweeter import *
+import threading
+'''
 key = '4qwcMrkw08dZRF8JOUAbTPWEI'
 secret = 'GnmdzLDjbIwruXveJ4RJePeAm5W2MP7a4jxXZbpNrUh46NAoRf'
 screen_name = 'philgilbertsr'
@@ -36,9 +36,6 @@ port = os.getenv('VCAP_APP_PORT', '5000')
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=int(port))
 '''
-
-import os
-from flask import Flask
 
 app = Flask(__name__)
 
