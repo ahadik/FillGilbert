@@ -132,7 +132,8 @@ header {
   width: 100%;
   height: 450px;
   background-image: url(../images/philbert.jpg);
-  background-size: cover; }
+  background-size: cover;
+  background-position: 50% 40%; }
   header:after {
     content: '';
     display: block;
