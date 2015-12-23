@@ -1,12 +1,9 @@
-
 import os
 from flask import Flask, request, url_for, redirect, jsonify
 from Tweeter import *
+from FillGilbertAPI import *
 import threading
 
-key = '4qwcMrkw08dZRF8JOUAbTPWEI'
-secret = 'GnmdzLDjbIwruXveJ4RJePeAm5W2MP7a4jxXZbpNrUh46NAoRf'
-screen_name = 'philgilbertsr'
 slack_tocken = 'zcqzT2fLc3yOC8LqwBO933Sx'
 tweets = TweetCorpus(key, secret, screen_name)
 

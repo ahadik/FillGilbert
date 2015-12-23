@@ -19,7 +19,7 @@ class TweetCorpus:
 		self.secret = secret
 		self.screen_name = screen_name
 		self.count = count
-		self.corpus = []
+		self.corpus = collections.defaultdict(dict)
 		self.name_dict = collections.defaultdict(list)
 		self.compiled = False
 
@@ -66,18 +66,17 @@ class TweetCorpus:
 		if max_id != None:
 			full_tweets.pop(0)
 		tweets_id = []
-		tweets_text = []
+		tweets = []
 		ind = 0
 		max_id = None
 		for tweet in full_tweets:
-			text = None
 			#filter out tweets that are retweets
 			if not 'retweeted_status' in tweet:
 				tweet_text = pars.unescape(tweet['text']).encode('utf8')
-				tweets_text.append(tweet_text)
+				tweets.append({'text' : tweet_text, 'id' : tweet['id'], 'date' : tweet['created_at']})
 				max_id = tweet['id']
 				ind+=1
-		return (tweets_text, max_id)
+		return (tweets, max_id)
 
 	def get_add_names(self, usernames):
 		names = self.retrieve_usernames(usernames)
@@ -90,26 +89,28 @@ class TweetCorpus:
 
 	def clean_tweets(self):
 		ind = 0
-		for tweet in self.corpus:
+		for tweet_id, tweet in self.corpus.iteritems():
+			tweet_text = tweet['text']
 			prohibitedWords = ['RT', 'MT']
 			regex = re.compile('|'.join(map(re.escape, prohibitedWords)))
-			tweet = regex.sub('', tweet)
-			tweet = re.sub('(?i)#ibmdesign', 'IBM Design', tweet)
-			tweet = re.sub('(?i)#IBM', 'IBM', tweet)
-			tweet = re.sub('(?i)#Watson', 'Watson', tweet)
-			self.corpus[ind] = tweet
+			tweet_text = regex.sub('', tweet_text)
+			tweet_text = re.sub('(?i) #ibmdesign', 'IBM Design', tweet_text)
+			tweet_text = re.sub('(?i)#IBM', 'IBM', tweet_text)
+			tweet_text = re.sub('(?i)#Watson', 'Watson', tweet_text)
+			tweet['text'] = tweet_text
+			self.corpus[tweet_id] = tweet
 			ind+=1
 
 	def scrub_usernames(self):
 		for username, name_data in self.name_dict.iteritems():
 			user_mentions = name_data[0]
 			user_data = name_data[1]
-			for tweet_ind in user_mentions:
+			for tweet_id in user_mentions:
 				tweet_out = None
 				if (user_data != {}) and ('errors' not in user_data):
 					#replace all mentions of this username with the fullname contained in the associated user object
-					tweet_out = re.sub(r'(?i)(?<=^|(?<=[^a-zA-Z0-9-_\.]))@'+username+'+[^A-Za-z0-9\_]', user_data['name'].encode('utf8')+' ', self.corpus[tweet_ind])
-				self.corpus[tweet_ind] = tweet_out
+					tweet_out = re.sub(r'(?i)(?<=^|(?<=[^a-zA-Z0-9-_\.]))@'+username+'+[^A-Za-z0-9\_]', user_data['name'].encode('utf8')+' ', self.corpus[tweet_id]['text'])
+				self.corpus[tweet_id]['text'] = tweet_out
 
 	#OUTPUT: an array of text from tweets
 	def compile(self):
@@ -118,7 +119,8 @@ class TweetCorpus:
 			#retrieve as many tweets as the Twitter API will allow (max of 200) that are older than max_id. If max_id is none, the most recent tweets are returned
 			tweets = self.retrieve_tweets(max_id)
 			#append the returned tweet texts to the corpus
-			self.corpus += tweets[0]
+			for tweet in tweets[0]:
+				self.corpus[tweet['id']] = tweet
 			#if 1 or more tweets are returned, we update the max_id to the oldest id, returned from retrieve_tweets()
 			if len(tweets[0]):
 				max_id = tweets[1]
@@ -127,15 +129,13 @@ class TweetCorpus:
 			break
 		#compile a regex that matches for twitter handles that begin with @
 		finder = re.compile(r'(?<=^|(?<=[^a-zA-Z0-9-_\.]))@([A-Za-z]+[A-Za-z0-9]+)')
-		ind = 0
-		for tweet in self.corpus:
+		for tweet_id, tweet in self.corpus.iteritems():
 			#get a list of usernames from the text of this tweet
-			tweet_usernames = finder.findall(tweet)
+			tweet_usernames = finder.findall(tweet['text'])
 			#if there was atleast 1 username extracted
 			if len(tweet_usernames):
 				#place all usernames in the name dictionary
-				map(lambda username : self.add_name(ind, username.lower()), tweet_usernames)
-			ind+=1
+				map(lambda username : self.add_name(tweet_id, username.lower()), tweet_usernames)
 
 		usernames = self.name_dict.keys()
 		lower_bound = 0
@@ -147,17 +147,19 @@ class TweetCorpus:
 		self.get_add_names(usernames[lower_bound:len(usernames)])
 		self.scrub_usernames()
 		self.clean_tweets()
-		self.corpus = map(lambda tweet : re.sub(r'(?:\@|https?\://)\S+', '', tweet), self.corpus)
+		for tweet_id, tweet in self.corpus.iteritems():
+			self.corpus[tweet_id]['text'] = re.sub(r'(?:\@|https?\://)\S+', '', tweet['text'])
 		self.compiled = True
 		print "Tweeter compiled"
 		return True
 
 	def create_paragraph(self):
-		size = len(self.corpus)
+		items = self.corpus.items()
+		size = len(items)
 		paragraph = ""
 		num_tweets = random.randint(5,10)
 		for i in xrange(num_tweets):
-			paragraph += self.corpus[random.randint(0,size-1)]+' '
+			paragraph += items[random.randint(0,size-1)][1]['text']+' '
 		return paragraph
 
 	def compose(self, num_paragraphs):
