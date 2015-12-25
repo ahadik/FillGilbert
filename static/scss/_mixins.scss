@@ -1,0 +1,19 @@
+//breakpoints
+@mixin breakpoint($point) {
+	@if $point == screen-md {
+		@media screen and (min-width: 1024px) { @content; }
+	}
+	@else if $point == screen-sm {
+		@media screen and (min-width: 768px) { @content; }
+	}
+}
+
+//font
+@mixin font($type) {
+	@if $type == primary {
+		font: 16px/18px "ff-meta-serif-web-pro", georgia, times, serif;
+	}
+	@else if $type == secondary {
+		font: 16px/18px "futura-pt", helvetica, arial, sans-serif;
+	}
+}

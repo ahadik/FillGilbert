@@ -1,0 +1,24 @@
+extend _layout
+
+block content
+	header
+		.text-wrapper
+			h1 fill gilbert
+			hr
+			h2 do more better work faster
+
+	nav.credits
+		li: a(href="#") //Alex Hadik
+		li: a(href="#") //Zach Temkin
+	
+	section.get-filler
+		h3 Need some filler text for that mock up?
+		h4 Just ask Fill Gilbert.
+		form
+			label(type="text" for="num-paragraphs") # of Paragraphs
+			input#num-paragraphs(type="text" name="paragraphs" value="3")
+			button.fill-button
+				a(href="#") Fill up
+		h5 Now get back to work!
+
+	footer
