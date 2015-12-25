@@ -1,0 +1,95 @@
+.get-filler {
+	$padingTopBottomForContainers_screen-lg: 6em;
+	$padingTopBottomForContainers_screen-sm: 3em;
+	display: flex;
+	flex-wrap: wrap;
+	@include breakpoint(screen-sm) {
+		flex-wrap: nowrap;
+	}
+	.controls-container {
+		width: 90%;
+		margin: 0 5%;
+		padding: $padingTopBottomForContainers_screen-sm 0 0;
+		@include breakpoint(screen-sm) {
+			width: 45%;
+			margin: 0 1% 0 4%;
+		}
+		@include breakpoint(screen-md) {
+			width: 30%;
+			margin: 0 0 0 20%;
+			padding: $padingTopBottomForContainers_screen-lg 0;
+		}
+		h3 {
+			@include font(primary);
+			width: 100%;
+			font-size: 3em;
+			line-height: 130%;
+			color: $fg-green-bright;
+		}
+		h4 {
+			font-size: 2em;
+			line-height: 150%;
+			color: $fg-blue-dark;
+		}
+		h5 {
+			font-size: 1.2em;
+			font-weight: 600;
+			line-height: 125%;
+			color: $fg-blue-dark;
+		}
+		form {
+			@include font(secondary);
+			margin: 1em 0 .75em;
+			input#num-paragraphs {
+				width: 100px;
+				padding: 1em;
+				border: 1px solid $fg-blue-dark;
+				font-size: 1em;
+			}
+			label {
+				display: block;
+				margin-bottom: -1em;
+				font-size: .75em;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+				color: rgba($fg-blue-dark, .75);
+			}
+			.fill-button {
+				margin: 1.5em 0;
+			}
+		}
+	}
+	.results-container {
+		width: 90%;
+		margin: 0 5%;
+		padding:
+			$padingTopBottomForContainers_screen-sm
+			0;
+		@include breakpoint(screen-sm) {
+			width: 45%;
+			margin: 0 4% 0 1%;
+		}
+		@include breakpoint(screen-md) {
+			width: 30%;
+			margin: 0 20% 0 0;
+			padding: 
+				$padingTopBottomForContainers_screen-lg 
+				0
+				$padingTopBottomForContainers_screen-lg
+				1.5em;
+		}
+		.results {
+			min-width: 100%;
+			padding: 1em;
+			background-color: desaturate(lighten($fg-blue-dark, 81%), 73%);
+			.copy-to-clipboard-button {
+				display: block;
+			}
+			p {
+				color: $fg-blue-dark;
+				line-height: 150%;
+			}
+		}
+	}
+}

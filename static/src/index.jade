@@ -12,13 +12,21 @@ block content
 		li: a(href="#") //Zach Temkin
 	
 	section.get-filler
-		h3 Need some filler text for that mock up?
-		h4 Just ask Fill Gilbert.
-		form
-			label(type="text" for="num-paragraphs") # of Paragraphs
-			input#num-paragraphs(type="text" name="paragraphs" value="3")
-			button.fill-button
-				a(href="#") Fill up
-		h5 Now get back to work!
+		.controls-container
+			h3 Need some filler text for that mock up?
+			h4 Just ask Fill Gilbert.
+			form
+				label(type="text" for="num-paragraphs") # of Paragraphs
+				input#num-paragraphs(type="text" name="paragraphs" value="3")
+				button.fg-button.fill-button
+					a(href="#") Fill up
+			h5 Now get back to work!
+		.results-container
+			.results
+				button.fg-button.fg-button--small.copy-to-clipboard-button
+					a(href="#") Copy To Clipboard
+
+				button.fg-button.fg-button--small.copy-to-clipboard-button
+					a(href="#") Copy To Clipboard
 
 	footer
